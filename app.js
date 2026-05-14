@@ -1,74 +1,92 @@
 const screens = {
 
-    intro: document.getElementById("intro-screen"),
-    menu: document.getElementById("menu-screen"),
-    roulette: document.getElementById("roulette-screen"),
-    question: document.getElementById("question-screen"),
-    answer: document.getElementById("answer-screen"),
-    settings: document.getElementById("settings-screen")
+    intro:
+        document.getElementById(
+            "intro-screen"
+        ),
+
+    menu:
+        document.getElementById(
+            "menu-screen"
+        ),
+
+    roulette:
+        document.getElementById(
+            "roulette-screen"
+        ),
+
+    question:
+        document.getElementById(
+            "question-screen"
+        ),
+
+    answer:
+        document.getElementById(
+            "answer-screen"
+        ),
+
+    settings:
+        document.getElementById(
+            "settings-screen"
+        )
 };
 
 function showScreen(name) {
 
-    Object.values(screens).forEach(screen => {
-        screen.classList.add("hidden");
-    });
+    Object.values(screens)
+        .forEach(screen => {
 
-    screens[name].classList.remove("hidden");
+            screen.classList
+                .add("hidden");
+        });
+
+    screens[name]
+        .classList
+        .remove("hidden");
 }
+
+const cityNames = [
+
+    "Москва",
+    "Тула",
+    "Казань",
+    "Омск",
+    "Тверь",
+    "Сочи",
+    "Томск",
+    "Курск",
+    "Пермь",
+    "Самара",
+    "Уфа",
+    "Калуга",
+    "Иркутск"
+];
 
 const audio = {
 
-    winner:
-        new Audio("audio/winner.mp3"),
-
-    rounds1:
-        new Audio("audio/rounds1.mp3"),
-
-    rounds2:
-        new Audio("audio/rounds2.mp3"),
-
-    rounds3:
-        new Audio("audio/rounds3.mp3"),
-
-    rounds4:
-        new Audio("audio/rounds4.mp3"),
-
-    rounds5:
-        new Audio("audio/rounds5.mp3"),
-
-    mainmenu:
-        new Audio("audio/mainmenu.mp3"),
-
-    startscreen:
+    whirligig:
         new Audio(
-            "audio/gameStartScreen.mp3"
+            "audio/whirligig.mp3"
         ),
 
-    whirligig:
-        new Audio("audio/whirligig.mp3"),
-
     gong:
-        new Audio("audio/gong.mp3"),
+        new Audio(
+            "audio/gong.mp3"
+        ),
 
     beep60:
-        new Audio("audio/BEEP_60sec.mp3"),
+        new Audio(
+            "audio/BEEP_60sec.mp3"
+        ),
 
     beep50:
-        new Audio("audio/BEEP_50sec.mp3"),
+        new Audio(
+            "audio/BEEP_50sec.mp3"
+        ),
 
     beep0:
-        new Audio("audio/BEEP_0sec.mp3"),
-
-    applause:
-        new Audio("audio/applause.mp3"),
-
-    applause2:
-        new Audio("audio/applause2.mp3"),
-
-    viewers:
         new Audio(
-            "audio/VPolzuTelezriteley.mp3"
+            "audio/BEEP_0sec.mp3"
         ),
 
     experts:
@@ -76,268 +94,202 @@ const audio = {
             "audio/VPolzuZnatakov.mp3"
         ),
 
-    letters:
+    viewers:
         new Audio(
-            "audio/placeletters.mp3"
+            "audio/VPolzuTelezriteley.mp3"
         )
 };
 
-const scoreAudio = {};
-
-for (let z = 0; z <= 6; z++) {
-
-    for (let t = 0; t <= 5; t++) {
-
-        scoreAudio[`${z}-${t}`] =
-            new Audio(
-                `audio/score/${z}-${t}.mp3`
-            );
-    }
-}
-
-function stopAllAudio() {
-
-    Object.values(audio)
-        .forEach(sound => {
-
-            sound.pause();
-
-            sound.currentTime = 0;
-        });
-
-    Object.values(scoreAudio)
-        .forEach(sound => {
-
-            sound.pause();
-
-            sound.currentTime = 0;
-        });
-}
-
-function playSound(sound) {
-
-    stopAllAudio();
-
-    sound.play();
-}
-
-function playBackground(sound) {
-
-    stopAllAudio();
-
-    sound.loop = true;
-
-    sound.play();
-}
-
 const introVideo =
-    document.getElementById("intro-video");
+    document.getElementById(
+        "intro-video"
+    );
 
-window.onload = () => {
+window.onload = async () => {
+
+    await loadQuestions();
 
     showScreen("intro");
 
     introVideo.play();
 };
 
-document.body.addEventListener(
-    "click",
-    () => {
-
-        audio.mainmenu.play();
-
-    },
-
-    { once: true }
-);
-
 introVideo.onended = () => {
 
     showScreen("menu");
-
-    playBackground(audio.mainmenu);
 };
 
-document.getElementById("skip-intro")
-    .onclick = () => {
+document.getElementById(
+    "skip-intro"
+).onclick = () => {
 
-        introVideo.pause();
+    introVideo.pause();
 
-        showScreen("menu");
-
-        playBackground(audio.mainmenu);
+    showScreen("menu");
 };
 
-document.getElementById("show-intro-btn")
-    .onclick = () => {
+document.getElementById(
+    "show-intro-btn"
+).onclick = () => {
 
-        stopAllAudio();
+    introVideo.currentTime = 0;
 
-        introVideo.currentTime = 0;
+    showScreen("intro");
 
-        showScreen("intro");
-
-        introVideo.play();
+    introVideo.play();
 };
 
-document.getElementById("start-btn")
-    .onclick = () => {
+document.getElementById(
+    "start-btn"
+).onclick = () => {
 
-        showScreen("roulette");
+    showScreen("roulette");
 };
 
-document.getElementById("back-menu-btn")
-    .onclick = () => {
+document.getElementById(
+    "back-menu-btn"
+).onclick = () => {
 
-        showScreen("menu");
-
-        playBackground(audio.mainmenu);
+    showScreen("menu");
 };
 
-document.getElementById("settings-btn")
-    .onclick = () => {
+document.getElementById(
+    "settings-btn"
+).onclick = () => {
 
-        showScreen("settings");
+    showScreen("settings");
 };
 
-document.getElementById("settings-back-btn")
-    .onclick = () => {
+document.getElementById(
+    "settings-back-btn"
+).onclick = () => {
 
-        showScreen("menu");
-
-        playBackground(audio.mainmenu);
+    showScreen("menu");
 };
 
 let timerDuration = 60;
 
-document.getElementById("save-settings-btn")
-    .onclick = () => {
+document.getElementById(
+    "save-settings-btn"
+).onclick = () => {
 
-        timerDuration =
-            Number(
-                document.getElementById(
-                    "timer-setting"
-                ).value
-            );
+    timerDuration =
+        Number(
+            document.getElementById(
+                "timer-setting"
+            ).value
+        );
 
-        alert("Настройки сохранены");
+    alert(
+        "Настройки сохранены"
+    );
 };
 
-const questions = [
+let questions = [];
 
-    {
-        id: 1,
+async function loadQuestions() {
 
-        type: "normal",
+    const response =
+        await fetch(
+            "data/questions.json"
+        );
 
-        question:
-            "Столица Франции?",
+    const data =
+        await response.json();
 
-        answer:
-            "Париж"
-    },
+    questions = data.questions;
 
-    {
-        id: 2,
-
-        type: "normal",
-
-        question:
-            "Сколько континентов?",
-
-        answer:
-            "7"
-    },
-
-    {
-        id: 3,
-
-        type: "blitz",
-
-        questions: [
-
-            {
-                question: "2 + 2",
-                answer: "4"
-            },
-
-            {
-                question: "3 + 3",
-                answer: "6"
-            },
-
-            {
-                question: "5 + 5",
-                answer: "10"
-            }
-        ]
-    }
-];
+    drawWheel();
+}
 
 let usedQuestions = [];
 
 const wheel =
-    document.getElementById("wheel");
+    document.getElementById(
+        "wheel"
+    );
 
-const ctx = wheel.getContext("2d");
+const ctx =
+    wheel.getContext("2d");
 
 const spinButton =
-    document.getElementById("spin-btn");
+    document.getElementById(
+        "spin-btn"
+    );
 
 let currentRotation = 0;
 
 function drawWheel() {
 
-    ctx.clearRect(0, 0, 600, 600);
+    ctx.clearRect(
+        0,
+        0,
+        700,
+        700
+    );
 
-    const count = questions.length;
+    const count =
+        questions.length;
 
     const angle =
-        (Math.PI * 2) / count;
+        (Math.PI * 2)
+        / count;
 
-    for (let i = 0; i < count; i++) {
-
-        ctx.beginPath();
-
-        ctx.moveTo(300, 300);
-
-        ctx.arc(
-            300,
-            300,
-            250,
-            i * angle,
-            (i + 1) * angle
-        );
+    for (
+        let i = 0;
+        i < count;
+        i++
+    ) {
 
         if (
             usedQuestions.includes(i)
         ) {
 
-            ctx.fillStyle = "#222";
+            continue;
         }
 
-        else {
+        ctx.beginPath();
 
-            ctx.fillStyle =
-                i % 2 === 0
-                    ? "#444"
-                    : "#777";
-        }
+        ctx.moveTo(
+            350,
+            350
+        );
+
+        ctx.arc(
+            350,
+            350,
+            300,
+            i * angle,
+            (i + 1) * angle
+        );
+
+        ctx.fillStyle =
+            i % 2 === 0
+                ? "#444"
+                : "#777";
 
         ctx.fill();
 
         ctx.save();
 
-        ctx.translate(300, 300);
+        ctx.translate(
+            350,
+            350
+        );
 
-        ctx.rotate(i * angle + angle / 2);
+        ctx.rotate(
+            i * angle
+            + angle / 2
+        );
 
-        ctx.fillStyle = "white";
+        ctx.fillStyle =
+            "white";
 
-        ctx.font = "30px Arial";
+        ctx.font =
+            "22px Arial";
 
         ctx.fillText(
-            i + 1,
+            cityNames[i],
             170,
             10
         );
@@ -346,49 +298,36 @@ function drawWheel() {
     }
 }
 
-drawWheel();
-
-let round = 1;
-
-function playRoundMusic() {
-
-    const tracks = {
-
-        1: audio.rounds1,
-        2: audio.rounds2,
-        3: audio.rounds3,
-        4: audio.rounds4,
-        5: audio.rounds5
-    };
-
-    if (tracks[round]) {
-
-        playSound(tracks[round]);
-    }
-}
-
 spinButton.onclick = () => {
 
     let available = [];
 
-    questions.forEach((q, i) => {
+    questions.forEach(
+        (q, i) => {
 
-        if (
-            !usedQuestions.includes(i)
-        ) {
+            if (
+                !usedQuestions
+                    .includes(i)
+            ) {
 
-            available.push(i);
+                available
+                    .push(i);
+            }
         }
-    });
+    );
 
-    if (available.length === 0) {
+    if (
+        available.length === 0
+    ) {
 
-        alert("Вопросы закончились");
+        alert(
+            "Вопросы закончились"
+        );
 
         return;
     }
 
-    playSound(audio.whirligig);
+    audio.whirligig.play();
 
     const randomIndex =
         available[
@@ -398,18 +337,23 @@ spinButton.onclick = () => {
             )
         ];
 
-    usedQuestions.push(randomIndex);
+    usedQuestions.push(
+        randomIndex
+    );
 
     drawWheel();
 
     const sectorAngle =
-        360 / questions.length;
+        360
+        / questions.length;
 
     const finalDeg =
-        3600 +
-        randomIndex * sectorAngle;
+        3600
+        + randomIndex
+        * sectorAngle;
 
-    currentRotation += finalDeg;
+    currentRotation +=
+        finalDeg;
 
     wheel.style.transition =
         "transform 5s ease-out";
@@ -419,12 +363,15 @@ spinButton.onclick = () => {
 
     setTimeout(() => {
 
-        openQuestion(randomIndex);
+        openQuestion(
+            randomIndex
+        );
 
     }, 5000);
 };
 
-let currentQuestion = null;
+let currentQuestion =
+    null;
 
 function openQuestion(index) {
 
@@ -435,52 +382,32 @@ function openQuestion(index) {
 
     audio.gong.play();
 
-    playRoundMusic();
-
     document.getElementById(
         "question-title"
     ).innerText =
-        `Раунд ${round}`;
+        "Вопрос";
 
-    if (
-        currentQuestion.type
-        === "normal"
-    ) {
-
-        document.getElementById(
-            "question-text"
-        ).innerText =
-            currentQuestion.question;
-    }
-
-    else {
-
-        let text = "";
-
-        currentQuestion.questions
-            .forEach((q, i) => {
-
-                text +=
-                    `${i + 1}. ${q.question}\n`;
-            });
-
-        document.getElementById(
-            "question-text"
-        ).innerText = text;
-    }
+    document.getElementById(
+        "question-text"
+    ).innerText =
+        currentQuestion.question;
 
     resetTimer();
+
+    startTimer();
 }
 
 let timer = null;
 
-let timeLeft = timerDuration;
+let timeLeft =
+    timerDuration;
 
 function resetTimer() {
 
     clearInterval(timer);
 
-    timeLeft = timerDuration;
+    timeLeft =
+        timerDuration;
 
     updateTimer();
 }
@@ -488,49 +415,61 @@ function resetTimer() {
 function updateTimer() {
 
     const timerEl =
-        document.getElementById("timer");
+        document.getElementById(
+            "timer"
+        );
 
-    timerEl.innerText = timeLeft;
+    timerEl.innerText =
+        timeLeft;
 
     if (timeLeft <= 10) {
 
-        timerEl.classList.add("red");
+        timerEl.classList
+            .add("red");
     }
 
     else {
 
-        timerEl.classList.remove("red");
+        timerEl.classList
+            .remove("red");
     }
 }
 
-document.getElementById(
-    "start-timer-btn"
-).onclick = () => {
+function startTimer() {
 
     clearInterval(timer);
 
     audio.beep60.play();
 
-    timer = setInterval(() => {
+    timer =
+        setInterval(() => {
 
-        timeLeft--;
+            timeLeft--;
 
-        updateTimer();
+            updateTimer();
 
-        if (timeLeft === 50) {
+            if (
+                timeLeft === 50
+            ) {
 
-            audio.beep50.play();
-        }
+                audio.beep50
+                    .play();
+            }
 
-        if (timeLeft <= 0) {
+            if (
+                timeLeft <= 0
+            ) {
 
-            clearInterval(timer);
+                clearInterval(
+                    timer
+                );
 
-            audio.beep0.play();
-        }
+                audio.beep0
+                    .play();
+            }
 
-    }, 1000);
-};
+        }, 1000);
+}
 
 document.getElementById(
     "show-answer-btn"
@@ -540,32 +479,10 @@ document.getElementById(
 
     showScreen("answer");
 
-    if (
-        currentQuestion.type
-        === "normal"
-    ) {
-
-        document.getElementById(
-            "answer-text"
-        ).innerText =
-            currentQuestion.answer;
-    }
-
-    else {
-
-        let answers = "";
-
-        currentQuestion.questions
-            .forEach((q, i) => {
-
-                answers +=
-                    `${i + 1}. ${q.answer}\n`;
-            });
-
-        document.getElementById(
-            "answer-text"
-        ).innerText = answers;
-    }
+    document.getElementById(
+        "answer-text"
+    ).innerText =
+        currentQuestion.answer;
 };
 
 let expertsScore = 0;
@@ -577,131 +494,59 @@ function updateScore() {
     const score =
         `${expertsScore}:${viewersScore}`;
 
-    const scoreEl =
-        document.getElementById("score");
+    document.getElementById(
+        "score"
+    ).innerText = score;
 
-    if (scoreEl) {
+    document.getElementById(
+        "score-question"
+    ).innerText = score;
 
-        scoreEl.innerText = score;
-    }
+    document.getElementById(
+        "score-answer"
+    ).innerText = score;
 }
 
-function playScoreAudio() {
-
-    const key =
-        `${expertsScore}-${viewersScore}`;
-
-    if (scoreAudio[key]) {
-
-        setTimeout(() => {
-
-            scoreAudio[key].play();
-
-        }, 2500);
-    }
-
-    checkGameEnd();
-}
-
-function expertsWin() {
+document.getElementById(
+    "experts-win-btn"
+).onclick = () => {
 
     expertsScore++;
 
     updateScore();
 
+    
+
+    drawWheel();
+
     audio.experts.play();
 
-    playScoreAudio();
-}
+    setTimeout(() => {
 
-function viewersWin() {
+        showScreen("roulette");
+
+    }, 1500);
+};
+
+document.getElementById(
+    "viewers-win-btn"
+).onclick = () => {
 
     viewersScore++;
 
     updateScore();
 
+    
+
+    drawWheel();
+
     audio.viewers.play();
 
-    playScoreAudio();
-}
+    setTimeout(() => {
 
-function checkGameEnd() {
+        showScreen("roulette");
 
-    if (expertsScore >= 6) {
-
-        setTimeout(() => {
-
-            playSound(audio.winner);
-
-            audio.applause.play();
-
-        }, 5000);
-    }
-
-    if (viewersScore >= 6) {
-
-        setTimeout(() => {
-
-            playSound(audio.winner);
-
-            audio.applause2.play();
-
-        }, 5000);
-    }
-}
-
-document.getElementById(
-    "next-question-btn"
-).onclick = () => {
-
-    round++;
-
-    showScreen("roulette");
+    }, 1500);
 };
-
-document.addEventListener(
-    "keydown",
-    e => {
-
-        if (
-            e.code === "Space"
-        ) {
-
-            e.preventDefault();
-
-            document.getElementById(
-                "start-timer-btn"
-            ).click();
-        }
-
-        if (
-            e.code === "Enter"
-        ) {
-
-            e.preventDefault();
-
-            document.getElementById(
-                "show-answer-btn"
-            ).click();
-        }
-
-        if (
-            e.code === "KeyR"
-        ) {
-
-            e.preventDefault();
-
-            showScreen("roulette");
-        }
-
-        if (
-            e.code === "KeyF"
-        ) {
-
-            document.documentElement
-                .requestFullscreen();
-        }
-    }
-);
 
 updateScore();

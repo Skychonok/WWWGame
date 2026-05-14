@@ -1,115 +1,200 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Что? Где? Когда?</title>
 
-    <link rel="stylesheet" href="style.css">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Что? Где? Когда?
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
 <body>
 
-    <!-- ЗАСТАВКА -->
-    <section id="intro-screen" class="screen">
+<div
+    id="intro-screen"
+    class="screen"
+>
 
-        <video id="intro-video">
-            <source src="video/rosatomIntro.f4v" type="video/mp4">
-        </video>
+    <video
+        id="intro-video"
+        autoplay
+    >
 
-        <button id="skip-intro">Пропустить</button>
+        <source
+            src="video/intro.mp4"
+            type="video/mp4"
+        >
 
-    </section>
+    </video>
 
-    <!-- МЕНЮ -->
-    <section id="menu-screen" class="screen hidden">
+    <button id="skip-intro">
+        Пропустить
+    </button>
 
-        <h1>Что? Где? Когда?</h1>
+</div>
 
-        <button id="start-btn">Начать игру</button>
+<div
+    id="menu-screen"
+    class="screen hidden"
+>
 
-        <button id="settings-btn">Настройки</button>
+    <h1>
+        Что? Где? Когда?
+    </h1>
 
-        <button id="show-intro-btn">Посмотреть заставку</button>
+    <button id="start-btn">
+        Старт игры
+    </button>
 
-    </section>
+    <button id="show-intro-btn">
+        Посмотреть заставку
+    </button>
 
-    <!-- РУЛЕТКА -->
-    <section id="roulette-screen" class="screen hidden">
+    <button id="settings-btn">
+        Настройки
+    </button>
 
-        <h2>Выберите вопрос</h2>
+</div>
 
-        <canvas id="wheel" width="600" height="600"></canvas>
+<div
+    id="roulette-screen"
+    class="screen hidden"
+>
 
-        <button id="spin-btn">Крутить</button>
+    <div id="score">
+        0:0
+    </div>
 
-        <button id="back-menu-btn">Меню</button>
+    <canvas
+        id="wheel"
+        width="700"
+        height="700"
+    ></canvas>
 
-    </section>
+    <button id="spin-btn">
+        Крутить рулетку
+    </button>
 
-    <!-- ВОПРОС -->
-    <section id="question-screen" class="screen hidden">
+    <button id="back-menu-btn">
+        Назад
+    </button>
 
-        <h2 id="question-title">Вопрос</h2>
+</div>
 
-        <div id="question-text"></div>
+<div
+    id="question-screen"
+    class="screen hidden"
+>
 
-        <div id="timer">60</div>
+    <div id="score-question">
+        0:0
+    </div>
 
-        <div class="controls">
+    <div id="top-timer-container">
 
-            <button id="start-timer-btn">
-                Старт таймера
-            </button>
-
-            <button id="show-answer-btn">
-                Показать ответ
-            </button>
-
+        <div id="timer-label">
+            ВРЕМЯ
         </div>
 
-    </section>
+        <div id="timer">
+            60
+        </div>
 
-    <!-- ОТВЕТ -->
-    <section id="answer-screen" class="screen hidden">
+    </div>
 
-        <h2>Ответ</h2>
+    <h2 id="question-title"></h2>
 
-        <div id="answer-text"></div>
+    <pre id="question-text"></pre>
 
-        <button id="next-question-btn">
-            Следующий вопрос
+    <button id="show-answer-btn">
+        Показать ответ
+    </button>
+
+</div>
+
+<div
+    id="answer-screen"
+    class="screen hidden"
+>
+
+    <div id="score-answer">
+        0:0
+    </div>
+
+    <h2>
+        Ответ
+    </h2>
+
+    <pre id="answer-text"></pre>
+
+    <div class="answer-buttons">
+
+        <button
+            class="experts-btn"
+            id="experts-win-btn"
+        >
+
+            Победили знатоки
+
         </button>
 
-    </section>
+        <button
+            class="viewers-btn"
+            id="viewers-win-btn"
+        >
 
-    <!-- НАСТРОЙКИ -->
-    <section id="settings-screen" class="screen hidden">
+            Победили зрители
 
-        <h2>Настройки</h2>
-
-        <label>
-            Время таймера:
-            <input type="number" id="timer-setting" value="60">
-        </label>
-
-        <button id="save-settings-btn">
-            Сохранить
         </button>
 
-        <button id="settings-back-btn">
-            Назад
-        </button>
+    </div>
 
-    </section>
+</div>
 
-    <!-- ЗВУКИ -->
-    <audio id="roulette-audio" src="audio/roulette.mp3"></audio>
+<div
+    id="settings-screen"
+    class="screen hidden"
+>
 
-    <audio id="timer-audio" src="audio/timer.mp3"></audio>
+    <h2>
+        Настройки
+    </h2>
 
-    <audio id="timeout-audio" src="audio/timeout.mp3"></audio>
+    <label>
+        Время на вопрос
+    </label>
 
-    <script src="app.js"></script>
+    <input
+        id="timer-setting"
+        type="number"
+        value="60"
+    >
+
+    <button id="save-settings-btn">
+        Сохранить
+    </button>
+
+    <button id="settings-back-btn">
+        Назад
+    </button>
+
+</div>
+
+<script src="app.js"></script>
 
 </body>
+
 </html>
