@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Что? Где? Когда?</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ЗАСТАВКА -->
+    <section id="intro-screen" class="screen">
+
+        <video id="intro-video">
+            <source src="video/rosatomIntro.f4v" type="video/mp4">
+        </video>
+
+        <button id="skip-intro">Пропустить</button>
+
+    </section>
+
+    <!-- МЕНЮ -->
+    <section id="menu-screen" class="screen hidden">
+
+        <h1>Что? Где? Когда?</h1>
+
+        <button id="start-btn">Начать игру</button>
+
+        <button id="settings-btn">Настройки</button>
+
+        <button id="show-intro-btn">Посмотреть заставку</button>
+
+    </section>
+
+    <!-- РУЛЕТКА -->
+    <section id="roulette-screen" class="screen hidden">
+
+        <h2>Выберите вопрос</h2>
+
+        <canvas id="wheel" width="600" height="600"></canvas>
+
+        <button id="spin-btn">Крутить</button>
+
+        <button id="back-menu-btn">Меню</button>
+
+    </section>
+
+    <!-- ВОПРОС -->
+    <section id="question-screen" class="screen hidden">
+
+        <h2 id="question-title">Вопрос</h2>
+
+        <div id="question-text"></div>
+
+        <div id="timer">60</div>
+
+        <div class="controls">
+
+            <button id="start-timer-btn">
+                Старт таймера
+            </button>
+
+            <button id="show-answer-btn">
+                Показать ответ
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- ОТВЕТ -->
+    <section id="answer-screen" class="screen hidden">
+
+        <h2>Ответ</h2>
+
+        <div id="answer-text"></div>
+
+        <button id="next-question-btn">
+            Следующий вопрос
+        </button>
+
+    </section>
+
+    <!-- НАСТРОЙКИ -->
+    <section id="settings-screen" class="screen hidden">
+
+        <h2>Настройки</h2>
+
+        <label>
+            Время таймера:
+            <input type="number" id="timer-setting" value="60">
+        </label>
+
+        <button id="save-settings-btn">
+            Сохранить
+        </button>
+
+        <button id="settings-back-btn">
+            Назад
+        </button>
+
+    </section>
+
+    <!-- ЗВУКИ -->
+    <audio id="roulette-audio" src="audio/roulette.mp3"></audio>
+
+    <audio id="timer-audio" src="audio/timer.mp3"></audio>
+
+    <audio id="timeout-audio" src="audio/timeout.mp3"></audio>
+
+    <script src="app.js"></script>
+
+</body>
+</html>
