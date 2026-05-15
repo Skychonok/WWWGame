@@ -62,6 +62,113 @@ const cityNames = [
     "Иркутск"
 ];
 
+const questions = [
+
+    {
+        question:
+            "Внутри реактора есть «чечевицы», «таблетки» и «луковицы». О чём речь, если все эти «кулинарные» термины описывают одну и ту же деталь в разных поколениях реакторов?",
+
+        answer:
+            "О топливных таблетках из диоксида урана. В ранних проектах их форма была двояковыпуклой (чечевица), затем цилиндрической (таблетка), а в жидкосолевых реакторах их аналог — «луковица»."
+    },
+
+    {
+        question:
+            "На Ленинградской АЭС есть традиция: перед плановым ремонтом на пульте оператора оставляют записку «Проверь, выключил ли ты утюг». При этом никакого утюга в зоне реактора нет. Зачем это делают?",
+
+        answer:
+            "Это психологический якорь на бытовую привычку — заставляет мозг переключиться в режим последней проверки всего."
+    },
+
+    {
+        question:
+            "На пульте управления быстрым реактором БН-800 есть индикатор, который мигает не красным, а фиолетовым. Какое физиологическое свойство зрения здесь использовано?",
+
+        answer:
+            "Фиолетовый цвет хуже всего локализуется периферическим зрением — оператор вынужден посмотреть прямо на индикатор."
+    },
+
+    {
+        question:
+            "В Димитровграде сотрудники закрепляют поверх халатов резиновых уточек. Зачем?",
+
+        answer:
+            "Это психологический индикатор грязной зоны."
+    },
+
+    {
+        question:
+            "В 1990-е годы деньги перевозили в контейнерах из-под чего?",
+
+        answer:
+            "Из-под отработавших тепловыделяющих сборок."
+    },
+
+    {
+        question:
+            "Этот прибор, изобретенный в 1908 году, издает щелчки при попадании ионизирующих частиц.",
+
+        answer:
+            "Счетчик Гейгера."
+    },
+
+    {
+        question:
+            "Метод углерода-14 работает только с объектами, которые когда-то были какими?",
+
+        answer:
+            "Живыми."
+    },
+
+    {
+        question:
+            "Устройство, которое сотрудник АЭС носит на груди и которое фиксирует накопленное.",
+
+        answer:
+            "Дозиметр."
+    },
+
+    {
+        question:
+            "«Пусть будет атом рабочим, а не…»",
+
+        answer:
+            "Солдатом."
+    },
+
+    {
+        question:
+            "Какой контур предложили сделать для защиты от утечки натрия?",
+
+        answer:
+            "Двойной — труба в трубе."
+    },
+
+    {
+        question:
+            "Фамилия руководителя взрыва первой советской атомной бомбы.",
+
+        answer:
+            "Павлов."
+    },
+
+    {
+        question:
+            "Какое вещество использовали для тушения графита на ЧАЭС?",
+
+        answer:
+            "Свинец."
+    },
+
+    {
+        question:
+            "Для чего ликвидаторам ЧАЭС выдавали красное вино?",
+
+        answer:
+            "Для выведения цезия-137 и как успокоительное."
+    }
+];
+
 const audio = {
 
     whirligig:
@@ -105,9 +212,9 @@ const introVideo =
         "intro-video"
     );
 
-window.onload = async () => {
+window.onload = () => {
 
-    await loadQuestions();
+    drawWheel();
 
     showScreen("intro");
 
@@ -185,23 +292,6 @@ document.getElementById(
     );
 };
 
-let questions = [];
-
-async function loadQuestions() {
-
-    const response =
-        await fetch(
-            "data/questions.json"
-        );
-
-    const data =
-        await response.json();
-
-    questions = data.questions;
-
-    drawWheel();
-}
-
 let usedQuestions = [];
 
 const wheel =
@@ -228,93 +318,94 @@ function drawWheel() {
         700
     );
 
+    const availableIndexes =
+        questions
+            .map((q, i) => i)
+            .filter(
+                i =>
+                    !usedQuestions
+                        .includes(i)
+            );
+
     const count =
-        questions.length;
+        availableIndexes.length;
+
+    if (count === 0) {
+        return;
+    }
 
     const angle =
         (Math.PI * 2)
         / count;
 
-    for (
-        let i = 0;
-        i < count;
-        i++
-    ) {
+    availableIndexes
+        .forEach(
+            (questionIndex, drawIndex) => {
 
-        if (
-            usedQuestions.includes(i)
-        ) {
+                ctx.beginPath();
 
-            continue;
-        }
+                ctx.moveTo(
+                    350,
+                    350
+                );
 
-        ctx.beginPath();
+                ctx.arc(
+                    350,
+                    350,
+                    300,
+                    drawIndex * angle,
+                    (drawIndex + 1)
+                    * angle
+                );
 
-        ctx.moveTo(
-            350,
-            350
+                ctx.fillStyle =
+                    drawIndex % 2 === 0
+                        ? "#444"
+                        : "#777";
+
+                ctx.fill();
+
+                ctx.save();
+
+                ctx.translate(
+                    350,
+                    350
+                );
+
+                ctx.rotate(
+                    drawIndex * angle
+                    + angle / 2
+                );
+
+                ctx.fillStyle =
+                    "white";
+
+                ctx.font =
+                    "22px Arial";
+
+                ctx.fillText(
+                    cityNames[
+                        questionIndex
+                    ],
+                    170,
+                    10
+                );
+
+                ctx.restore();
+            }
         );
-
-        ctx.arc(
-            350,
-            350,
-            300,
-            i * angle,
-            (i + 1) * angle
-        );
-
-        ctx.fillStyle =
-            i % 2 === 0
-                ? "#444"
-                : "#777";
-
-        ctx.fill();
-
-        ctx.save();
-
-        ctx.translate(
-            350,
-            350
-        );
-
-        ctx.rotate(
-            i * angle
-            + angle / 2
-        );
-
-        ctx.fillStyle =
-            "white";
-
-        ctx.font =
-            "22px Arial";
-
-        ctx.fillText(
-            cityNames[i],
-            170,
-            10
-        );
-
-        ctx.restore();
-    }
 }
 
 spinButton.onclick = () => {
 
-    let available = [];
-
-    questions.forEach(
-        (q, i) => {
-
-            if (
-                !usedQuestions
-                    .includes(i)
-            ) {
-
-                available
-                    .push(i);
-            }
-        }
-    );
+    const available =
+        questions
+            .map((q, i) => i)
+            .filter(
+                i =>
+                    !usedQuestions
+                        .includes(i)
+            );
 
     if (
         available.length === 0
@@ -343,17 +434,8 @@ spinButton.onclick = () => {
 
     drawWheel();
 
-    const sectorAngle =
-        360
-        / questions.length;
-
-    const finalDeg =
-        3600
-        + randomIndex
-        * sectorAngle;
-
     currentRotation +=
-        finalDeg;
+        3600;
 
     wheel.style.transition =
         "transform 5s ease-out";
@@ -515,10 +597,6 @@ document.getElementById(
 
     updateScore();
 
-    
-
-    drawWheel();
-
     audio.experts.play();
 
     setTimeout(() => {
@@ -535,10 +613,6 @@ document.getElementById(
     viewersScore++;
 
     updateScore();
-
-    
-
-    drawWheel();
 
     audio.viewers.play();
 
